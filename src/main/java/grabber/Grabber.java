@@ -17,7 +17,7 @@ public class Grabber {
 
     public static void main(String[] args) throws InterruptedException {
         Grabber grabber = new Grabber();
-        grabber.walk(23720);
+        grabber.walk(23720, 23874);
     }
 
     public MyDocument extract(String url, int id) {
@@ -35,11 +35,11 @@ public class Grabber {
         return null;
     }
 
-    public void walk(int docID) throws InterruptedException {
-        for (int i = 1; i <= docID; i++) {
+    public void walk(int docIDStart, int docIDEnd) throws InterruptedException {
+        for (int i = docIDStart; i <= docIDEnd; i++) {
             MyDocument doc = extract("http://government.ru/docs/"+ i +"/?ajax=reader", i);
             if (doc != null) {
-                MyDocumentWriter.write(doc, "/Volumes/Media/Developement/Git/MachineLearning/out/");
+                MyDocumentWriter.write(doc, "/Volumes/Media/Documents/Git/MachineLearning/out/");
             }
             Thread.sleep(1000);
         }

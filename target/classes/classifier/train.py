@@ -40,8 +40,12 @@ def parseDoc(file):
     return (tags, text)
 
 parseDocs()
+
 count_vect = CountVectorizer()
 X_train_counts = count_vect.fit_transform(textList)
+
+tf_transformer = TfidfTransformer(use_idf=False).fit(X_train_counts)
+X_train_tf = tf_transformer.transform(X_train_counts)
 
 tfidf_transformer = TfidfTransformer()
 X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
@@ -49,25 +53,22 @@ X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
 mlb = MultiLabelBinarizer()
 y = mlb.fit_transform(tagList)
 
-classer = OneVsRestClassifier(LinearSVC(random_state=0)).fit(X_train_tfidf[:5000, :], y[:5000, :])
+classer = OneVsRestClassifier(LinearSVC(random_state=0)).fit(X_train_tfidf[:3160, :], y[:3160, :])
 
-print(tagList[5002])
-def evalTrainer():
-    correct = 0
-    for i in range(5001, len(textList)):
-        correct = correct + pred(i)
-    print ('correct: 'correct)
-    print('precentage: ' correct/(len(textList)-5001))
+# tags_test, text = parseDoc(join(mypath, '23608.txt'))
+# X_test_counts = count_vect.fit_transform(text)
+# X_test_tfidf = tfidf_transformer.fit_transform(X_test_counts)
 
-def pred(index):
-    predicted = classer.predict(X_train_tfidf[index, :])
-    tagsPred = list()
-    for i in predicted.nonzero()[1]:
-        tagsPred.append(mlb.classes_.item(i))
+predicted = classer.predict(X_train_tfidf[3161, :])
+print (predicted.shape)
+print (len(textList))
+a = predicted.nonzero()
+for i in a[1]:
+    print(mlb.classes_.item(i))
 
-    if set(tagsPred) == set(tagList[index]):
-        return 1
-    else:
-        return 0
+print(tagList[3161])
 
-evalTrainer()
+
+
+# print(X_train_counts.shape)
+# print(len(tagSet))
