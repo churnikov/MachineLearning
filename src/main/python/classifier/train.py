@@ -6,10 +6,9 @@ from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.svm import LinearSVC
-from sklearn.naive_bayes import GaussianNB
-import csv
-import traceback, sys
 from bs4 import BeautifulSoup as soup
+import csv
+from datetime import date
 
 mypath = '/Volumes/Media/Documents/Git/MachineLearning/out/'
 onlyfiles = [f for f in listdir(mypath) if (isfile(join(mypath, f)))]
@@ -41,18 +40,6 @@ def parseDoc(file):
 
     return (tags, text)
 
-# def parseDoc(file):
-#     dom = parse(file)
-#     titleNodes = dom.getElementsByTagName('title')
-#     tagNodes = dom.getElementsByTagName('tag')
-#     textNode = dom.getElementsByTagName('text')
-#     title = (titleNodes[0].firstChild.nodeValue + ' ') * 3
-#
-#     tags = [node.firstChild.nodeValue for node in tagNodes]
-#     text = textNode[0].firstChild.nodeValue + title
-#
-#     return (tags, text)
-
 tagDict = parseDocs()
 
 count_vect = CountVectorizer()
@@ -65,14 +52,27 @@ print (X_train_tfidf.shape)
 mlb = MultiLabelBinarizer()
 y = mlb.fit_transform(tagList)
 
-classer = OneVsRestClassifier(LinearSVC(random_state=0)).fit(X_train_tfidf[:5000, :], y[:5000, :])
+trainNum = 5000
+testNum = 5001
+classer = OneVsRestClassifier(LinearSVC(random_state=0)).fit(X_train_tfidf[:trainNum, :], y[:trainNum, :])
 
 def evalTrainer():
     correct = 0
-    for i in range(5001, len(textList)):
+    for i in range(testNum, len(textList)):
         correct = correct + pred(i)
-    print (correct)
-    print(correct/(len(textList)-5001))
+    perc = correct/(len(textList)-(testNum))
+    with open('results.txt', 'a') as out:
+        out.write('-'*60)
+        out.write('\n {date}'.format(date = date.today()))
+        out.write('\n' + 'correct = {correct}'.format(correct = correct))
+        out.write(' out of test = {total}'.format(total = testNum))
+        out.write('\n' + 'percentage = {perc}'.format(perc=perc))
+        docsnum = X_train_tfidf.shape[0]
+        terms = X_train_tfidf.shape[1]
+        out.write('\n' + 'number of docs = {docsnum}; number of terms = {terms}'.format(docsnum = docsnum, terms = terms) + '\n')
+        out.write('-'*60)
+
+
 
 def pred(index):
     predicted = classer.predict(X_train_tfidf[index, :])
@@ -84,6 +84,15 @@ def pred(index):
         return 1
     else:
         return 0
-print (tagDict)
+
+def getDocsDistrib():
+    for i in range(0, len(textList)):
+        for tag in tagList[i]:
+            tagDict[tag] = tagDict[tag] + 1
+    w = csv.writer(open('output.csv', 'w'))
+    for key, val in tagDict.items():
+        w.writerow([key, val])
+
+# getDocsDistrib()
 
 evalTrainer()
