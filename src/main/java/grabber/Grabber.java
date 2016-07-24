@@ -20,7 +20,7 @@ public class Grabber {
 
     public static void main(String[] args) throws InterruptedException {
         Grabber grabber = new Grabber();
-        grabber.walk(38, 9367);
+        grabber.walk(23928, 23952);
     }
 
     public MyDocument extract(String url, int id) {
