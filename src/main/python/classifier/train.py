@@ -15,7 +15,8 @@ import time
 
 mypath = '/Volumes/Media/Documents/Git/MachineLearning/out/'
 onlyfiles = [f for f in listdir(mypath) if (isfile(join(mypath, f)))]
-onlyfiles = onlyfiles[1:len(onlyfiles)]
+while '.DS_Store' in onlyfiles:
+    del onlyfiles[onlyfiles.index('.DS_Store')]
 
 tagList = list()
 textList = list()
@@ -87,10 +88,10 @@ print (X_train_tfidf.shape)
 mlb = MultiLabelBinarizer()
 y = mlb.fit_transform(tagList)
 
-trainNum = 3200
-testNumStart = 3201
+trainNum = 5753
+testNumStart = 5754
 testNumFinish = len(textList)
-classer = OneVsRestClassifier(LinearSVC(random_state=0, class_weight='balanced'), n_jobs=2).fit(X_train_tfidf[:trainNum, :], y[:trainNum, :])
+classer = OneVsRestClassifier(LinearSVC(random_state=0, class_weight='balanced', C=2.0), n_jobs=2).fit(X_train_tfidf[:trainNum, :], y[:trainNum, :])
 
 def evalTrainer():
     correct = 0
@@ -125,7 +126,11 @@ def getDocsDistrib():
     for i in range(0, len(textList)):
         for tag in tagList[i]:
             tagDict[tag] = tagDict[tag] + 1
-    p_to_doc_csv('output.csv', tagDict)
+    with open('output.csv', 'w') as out:
+        fieldNames = ['tag' , 'ocurs']
+        writer = csv.DictWriter(out, tagDict.keys())
+        writer.writeheader()
+        writer.writerow(tagDict)
 
 
 

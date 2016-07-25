@@ -20,7 +20,8 @@ public class Grabber {
 
     public static void main(String[] args) throws InterruptedException {
         Grabber grabber = new Grabber();
-        grabber.walk(23928, 23952);
+        String outPath = "/Volumes/Media/Documents/Git/MachineLearning/out/news/";
+        grabber.walk(1, 23936, "news", outPath);
     }
 
     public MyDocument extract(String url, int id) {
@@ -38,11 +39,11 @@ public class Grabber {
         return null;
     }
 
-    public void walk(int docIDStart, int docIDEnd) throws InterruptedException {
+    public void walk(int docIDStart, int docIDEnd, String citePart, String outPath) throws InterruptedException {
         for (int i = docIDStart; i <= docIDEnd; i++) {
-            MyDocument doc = extract("http://government.ru/docs/"+ i +"/?ajax=reader", i);
+            MyDocument doc = extract("http://government.ru/" + citePart + "/"+ i +"/?ajax=reader", i);
             if (doc != null) {
-                MyDocumentWriter.write(doc, "/Volumes/Media/Documents/Git/MachineLearning/out/");
+                MyDocumentWriter.write(doc, outPath);
             }
             Thread.sleep(1000);
         }
