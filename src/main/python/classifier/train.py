@@ -1,74 +1,16 @@
-from xml.dom.minidom import parse, parseString
-from os import listdir
-from os.path import isfile, join
+import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.svm import LinearSVC
-from bs4 import BeautifulSoup as soup
 import csv
 from datetime import date
-import numpy as np
 import re
 import time
-import test
+from parseUtils import parseDocs
 
-mypath = '/Volumes/Media/Documents/Git/MachineLearning/out/'
-test.my_print(mypath)
-onlyfiles = [f for f in listdir(mypath) if (isfile(join(mypath, f)))]
-while '.DS_Store' in onlyfiles:
-    del onlyfiles[onlyfiles.index('.DS_Store')]
-
-tagList = list()
-textList = list()
-
-stopTagList = list()
-with open('stopTagList.txt', 'r') as stl:
-    for line in stl:
-        stopTagList.append(line.rstrip('\n'))
-
-def checkTag(tags): #This is pourly written method
-    tagSet = set(tags)
-    tagSetDiff = set()
-    add = False
-    for tag in tagSet:
-        for category in stopTagList:
-            if tag == category:
-                add = True
-                tagSetDiff.add(tag)
-
-    if add:
-        tagSet.difference_update(tagSetDiff)
-        tagSet.add('discardTags')
-        if(len(tagSet) > 1):
-            print (tagSet)
-    return list(tagSet)
-
-def parseDocs():
-    tagSet = set()
-    for doc in onlyfiles:
-        path = join(mypath, doc)
-
-        tags, text = parseDoc(join(mypath, doc))
-        if 'notag' not in tags:
-            tags = checkTag(tags)
-            if 'discardTags' not in tags:
-                tagSet.update(tags)
-                tagList.append(tags)
-                textList.append(text)
-    return dict.fromkeys(tagSet, 0)
-
-def parseDoc(file):
-    fl = open(file, 'r')
-    dom = soup(fl, 'lxml')
-    text_wo_title = dom.find('text').get_text()
-    title = dom.find('title').get_text() * 3
-    text = text_wo_title + title
-    tags = [x.get_text() for x in dom.findAll('tag')]
-
-    return (tags, text)
-tagDict = parseDocs()
+(tagDict, tagList, textList) = parseDocs()
 print(len(tagDict))
 
 reg = "(?u)\b[\D(^-_\. )]+\b"
