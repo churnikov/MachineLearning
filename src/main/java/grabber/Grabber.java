@@ -20,8 +20,8 @@ public class Grabber {
 
     public static void main(String[] args) throws InterruptedException {
         Grabber grabber = new Grabber();
-        String outPath = "/Volumes/Media/Documents/Git/MachineLearning/out/news/";
-        grabber.walk(1, 23936, "news", outPath);
+        String outPath = "/Volumes/Media/Documents/Git/MachineLearning/out/orders/";
+        grabber.walk(1, 23958, "orders", outPath);
     }
 
     public MyDocument extract(String url, int id) {

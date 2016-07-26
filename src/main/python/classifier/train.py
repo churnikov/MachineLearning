@@ -12,8 +12,10 @@ from datetime import date
 import numpy as np
 import re
 import time
+import test
 
 mypath = '/Volumes/Media/Documents/Git/MachineLearning/out/'
+test.my_print(mypath)
 onlyfiles = [f for f in listdir(mypath) if (isfile(join(mypath, f)))]
 while '.DS_Store' in onlyfiles:
     del onlyfiles[onlyfiles.index('.DS_Store')]
@@ -38,7 +40,7 @@ def checkTag(tags): #This is pourly written method
 
     if add:
         tagSet.difference_update(tagSetDiff)
-        tagSet.add('Культура и туризм')
+        tagSet.add('discardTags')
         if(len(tagSet) > 1):
             print (tagSet)
     return list(tagSet)
@@ -51,10 +53,10 @@ def parseDocs():
         tags, text = parseDoc(join(mypath, doc))
         if 'notag' not in tags:
             tags = checkTag(tags)
-            # if 'Культура и туризм' in tags:
-            tagSet.update(tags)
-            tagList.append(tags)
-            textList.append(text)
+            if 'discardTags' not in tags:
+                tagSet.update(tags)
+                tagList.append(tags)
+                textList.append(text)
     return dict.fromkeys(tagSet, 0)
 
 def parseDoc(file):
@@ -88,8 +90,8 @@ print (X_train_tfidf.shape)
 mlb = MultiLabelBinarizer()
 y = mlb.fit_transform(tagList)
 
-trainNum = 5753
-testNumStart = 5754
+trainNum = 3922
+testNumStart = 3923
 testNumFinish = len(textList)
 classer = OneVsRestClassifier(LinearSVC(random_state=0, class_weight='balanced', C=2.0), n_jobs=2).fit(X_train_tfidf[:trainNum, :], y[:trainNum, :])
 
