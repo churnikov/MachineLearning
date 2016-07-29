@@ -10,12 +10,8 @@
 # for token in tokens:
 #     print(stemmer.stem(token))
 
-ls = [1, 1, 2, 3]
+ls = ['a', 'b', 'c', 'd']
 ls1 = [4, 5, 2]
-lsSet = (set(ls))
-lsSet1 = (set(ls1))
-lsSetTot = lsSet.union(lsSet1)
-print((lsSetTot))
-for val in (lsSet):
-    if 6 not in lsSetTot:
-        print(val)
+with open('tst.txt', 'a') as out:
+    for w in ls:
+        out.write('wrd = {w}'.format(w = w))

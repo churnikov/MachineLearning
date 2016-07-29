@@ -16,17 +16,19 @@ def parseDocs():
     tagSet = set()
     tagList = list()
     textList = list()
+    namesList = list()
     for doc in onlyfiles:
         path = join(mypath, doc)
         tags, text = parseDoc(path)
         if 'notag' not in tags:
             tags = checkTag(tags)
             if 'discardTags' not in tags:
+                namesList.append(doc)
                 tagSet.update(tags)
                 tagList.append(tags)
                 textList.append(text)
     tagDict = dict.fromkeys(tagSet, 0)
-    return (tagDict, tagList, textList)
+    return (tagDict, tagList, textList, namesList)
 
 def parseDoc(file):
     fl = open(file, 'r')

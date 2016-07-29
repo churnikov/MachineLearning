@@ -13,7 +13,7 @@ import pdb
 
 out_path = '/Volumes/Media/Documents/Git/MachineLearning/src/main/resources/classifierOuts/'
 
-(tagDict, tagList, textList) = parseDocs()
+(tagDict, tagList, textList, namesList) = parseDocs()
 print(len(tagDict))
 
 stemmer = SnowballStemmer('russian')
@@ -31,8 +31,8 @@ def tokenize(text):
 
 #Counting/tokenizing/preprocessing words
 count_vect = CountVectorizer(max_df=0.8, min_df=0.01,
-                             ngram_range=(1, 2))
-                            #  tokenizer=tokenize)
+                             ngram_range=(1, 2),
+                             tokenizer=tokenize)
 X_train_counts = count_vect.fit_transform(textList)
 
 #Tranforming into tfidf matrix
@@ -126,6 +126,17 @@ def pred(index):
 
     setPred = set(tagsPred)
     setTag = set(tagList[index])
+
+    with open('output.txt', 'a') as out:
+        out.write('-'*60)
+        out.write('\ntext: {name}\n'.format(name = namesList[index]))
+        out.write('predicted: ')
+        for tag in tagsPred:
+            out.write('{tag}; '.format(tag = tag))
+        out.write('\nactual tags: ')
+        for tag in setTag:
+            out.write('{tag}; '.format(tag = tag))
+        out.write('\n' +'-'*60 + '\n')
 
     if setPred == setTag:
         truePos = len(tagsPred)
