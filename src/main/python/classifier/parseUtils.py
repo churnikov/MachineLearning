@@ -1,12 +1,11 @@
-from xml.dom.minidom import parse, parseString
 from os import listdir
 from os.path import isfile, join
 from bs4 import BeautifulSoup as soup
 
 mypath = '/Volumes/Media/Documents/Git/MachineLearning/out/'
-onlyfiles = [f for f in listdir(mypath) if (isfile(join(mypath, f)))]
-while '.DS_Store' in onlyfiles:
-    del onlyfiles[onlyfiles.index('.DS_Store')]
+onlyfiles = [f for f in listdir(mypath) if (isfile(join(mypath, f)) and f.endswith('.txt'))]
+# while '.DS_Store' in onlyfiles:
+#     del onlyfiles[onlyfiles.index('.DS_Store')]
 
 stopTagList = list()
 with open('stopTagList.txt', 'r') as stl:
