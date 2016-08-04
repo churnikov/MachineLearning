@@ -15,7 +15,8 @@ import time
 
 mypath = '/Volumes/Media/Documents/Git/MachineLearning/out/'
 onlyfiles = [f for f in listdir(mypath) if (isfile(join(mypath, f)))]
-onlyfiles = onlyfiles[1:len(onlyfiles)]
+while '.DS_Store' in onlyfiles:
+    del onlyfiles[onlyfiles.index('.DS_Store')]
 
 tagList = list()
 textList = list()
@@ -87,22 +88,23 @@ print (X_train_tfidf.shape)
 mlb = MultiLabelBinarizer()
 y = mlb.fit_transform(tagList)
 
-trainNum = 3200
-testNum = 3201
-classer = OneVsRestClassifier(LinearSVC(random_state=0), n_jobs=2).fit(X_train_tfidf[:trainNum, :], y[:trainNum, :])
+trainNum = 5753
+testNumStart = 5754
+testNumFinish = len(textList)
+classer = OneVsRestClassifier(LinearSVC(random_state=0, class_weight='balanced', C=2.0), n_jobs=2).fit(X_train_tfidf[:trainNum, :], y[:trainNum, :])
 
 def evalTrainer():
     correct = 0
-    for i in range(testNum, len(textList)):
+    for i in range(testNumStart, testNumFinish):
         correct = correct + pred(i)
-    perc = correct/(len(textList)-(testNum))
+    perc = correct/(testNumFinish-testNumStart)
     print(correct)
     print(perc)
     with open('results.txt', 'a') as out:
         out.write('-'*60)
         out.write('\n {date}'.format(date = date.today()))
         out.write('\n' + 'correct = {correct}'.format(correct = correct))
-        out.write(' out of test = {total}'.format(total = len(textList)-testNum))
+        out.write(' out of test = {total}'.format(total = len(textList)-testNumStart))
         out.write('\n' + 'percentage = {perc}'.format(perc=perc))
         docsnum = X_train_tfidf.shape[0]
         terms = X_train_tfidf.shape[1]
@@ -124,7 +126,11 @@ def getDocsDistrib():
     for i in range(0, len(textList)):
         for tag in tagList[i]:
             tagDict[tag] = tagDict[tag] + 1
-    p_to_doc_csv('output.csv', tagDict)
+    with open('output.csv', 'w') as out:
+        fieldNames = ['tag' , 'ocurs']
+        writer = csv.DictWriter(out, tagDict.keys())
+        writer.writeheader()
+        writer.writerow(tagDict)
 
 
 
