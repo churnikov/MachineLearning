@@ -32,7 +32,8 @@ def parseDoc(file):
     fl = open(file, 'r')
     dom = soup(fl, 'lxml')
     text_wo_title = dom.find('text').get_text()
-    title = dom.find('title').get_text() * 3
+    # title = dom.find('title').get_text() * 3
+    title = dom.find('title').get_text()
     text = text_wo_title + title
     tags = [x.get_text() for x in dom.findAll('tag')]
 
