@@ -4,8 +4,6 @@ from bs4 import BeautifulSoup as soup
 
 mypath = '/Volumes/Media/Documents/Git/MachineLearning/out/'
 onlyfiles = [f for f in listdir(mypath) if (isfile(join(mypath, f)) and f.endswith('.txt'))]
-# while '.DS_Store' in onlyfiles:
-#     del onlyfiles[onlyfiles.index('.DS_Store')]
 
 stopTagList = list()
 with open('stopTagList.txt', 'r') as stl:
@@ -34,7 +32,8 @@ def parseDoc(file):
     fl = open(file, 'r')
     dom = soup(fl, 'lxml')
     text_wo_title = dom.find('text').get_text()
-    title = dom.find('title').get_text() * 3
+    # title = dom.find('title').get_text() * 3
+    title = dom.find('title').get_text()
     text = text_wo_title + title
     tags = [x.get_text() for x in dom.findAll('tag')]
 
