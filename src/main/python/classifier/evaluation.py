@@ -16,12 +16,15 @@ class eval:
         true_pos = 0
         false_pos = 0
         false_neg = 0
+        predicted = self.classer.predict(self.x_train[testNumStart : testNumFinish , :])
+        j = 0
         for i in range(testNumStart, testNumFinish):
-            t_crrct, t_tp, t_fp, t_fn = self.pred(i)
+            t_crrct, t_tp, t_fp, t_fn = self.pred(i, j, predicted)
             correct = correct + t_crrct
             true_pos = true_pos + t_tp
             false_pos = false_pos + t_fp
             false_neg = false_neg + t_fn
+            j = j + 1
         # макро точность
         total_test = testNumFinish - testNumStart
         macro_precision = correct / total_test
@@ -73,10 +76,10 @@ class eval:
             out.write('-' * 60)
 
 
-    def pred(self, index):
-        predicted = self.classer.predict(self.x_train[index, :])
+    def pred(self, index, j, predicted):
+        predicted = predicted[j, :]
         tags_pred = list()
-        for i in predicted.nonzero()[1]:
+        for i in predicted.nonzero()[0]:
             tags_pred.append(self.mlb.classes_.item(i))
 
         true_pos = 0

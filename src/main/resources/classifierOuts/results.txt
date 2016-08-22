@@ -1006,4 +1006,108 @@ false_pos_tags = 159
 n_of_predicted_tags = 926
 n_of_relevant_tags = 1017
 number of docs = 4606; number of terms = 10174
+------------------------------------------------------------------------------------------------------------------------
+ 2016-08-15
+macro_precision = 0.6536373507057546
+micro_precision = 0.8040816326530612
+recall = 0.7748279252704031
+F1 = 0.7891837756634953
+macro_correct = 602 out of test = 921
+micro_correct/true_pos_tags = 788
+false_neg_tags = 229
+false_pos_tags = 192
+n_of_predicted_tags = 980
+n_of_relevant_tags = 1017
+number of docs = 4606; number of terms = 10174
+------------------------------------------------------------------------------------------------------------------------
+ 2016-08-16
+macro_precision = 0.6579804560260586
+micro_precision = 0.8243386243386244
+recall = 0.7659783677482792
+F1 = 0.7940876656472987
+macro_correct = 606 out of test = 921
+micro_correct/true_pos_tags = 779
+false_neg_tags = 238
+false_pos_tags = 166
+n_of_predicted_tags = 945
+n_of_relevant_tags = 1017
+number of docs = 6565; number of terms = 8889
+------------------------------------------------------------------------------------------------------------------------
+ 2016-08-16
+macro_precision = 0.5906623235613464
+micro_precision = 0.8783422459893048
+recall = 0.6460176991150443
+F1 = 0.7444759206798868
+macro_correct = 544 out of test = 921
+micro_correct/true_pos_tags = 657
+false_neg_tags = 360
+false_pos_tags = 91
+n_of_predicted_tags = 748
+n_of_relevant_tags = 1017
+number of docs = 4606; number of terms = 1261408
+------------------------------------------------------------------------------------------------------------------------
+ 2016-08-16
+macro_precision = 0.5960912052117264
+micro_precision = 0.8794701986754967
+recall = 0.6529006882989183
+F1 = 0.7494356659142212
+macro_correct = 549 out of test = 921
+micro_correct/true_pos_tags = 664
+false_neg_tags = 353
+false_pos_tags = 91
+n_of_predicted_tags = 755
+n_of_relevant_tags = 1017
+number of docs = 7706; number of terms = 1429778
+------------------------------------------------------------------------------------------------------------------------
+ 2016-08-16
+macro_precision = 0.5971769815418024
+micro_precision = 0.8796296296296297
+recall = 0.6538839724680433
+F1 = 0.7501410039481106
+macro_correct = 550 out of test = 921
+micro_correct/true_pos_tags = 665
+false_neg_tags = 352
+false_pos_tags = 91
+n_of_predicted_tags = 756
+n_of_relevant_tags = 1017
+number of docs = 6156; number of terms = 1429778
+------------------------------------------------------------------------------------------------------------------------
+ 2016-08-16
+macro_precision = 0.6102062975027145
+micro_precision = 0.8926174496644296
+recall = 0.6538839724680433
+F1 = 0.7548240635641317
+macro_correct = 562 out of test = 921
+micro_correct/true_pos_tags = 665
+false_neg_tags = 352
+false_pos_tags = 80
+n_of_predicted_tags = 745
+n_of_relevant_tags = 1017
+number of docs = 6156; number of terms = 1429778
+------------------------------------------------------------------------------------------------------------------------
+ 2016-08-19
+macro_precision = 0.579100145137881
+micro_precision = 0.7987987987987988
+recall = 0.6768447837150128
+F1 = 0.7327823691460055
+macro_correct = 399 out of test = 689
+micro_correct/true_pos_tags = 532
+false_neg_tags = 254
+false_pos_tags = 134
+n_of_predicted_tags = 666
+n_of_relevant_tags = 786
+number of docs = 4999; number of terms = 3474
+------------------------------------------------------------------------------------------------------------------------
+ 2016-08-19
+macro_precision = 0.6590662323561346
+micro_precision = 0.8276595744680851
+recall = 0.7649950835791544
+F1 = 0.795094532447624
+macro_correct = 607 out of test = 921
+micro_correct/true_pos_tags = 778
+false_neg_tags = 239
+false_pos_tags = 162
+n_of_predicted_tags = 940
+n_of_relevant_tags = 1017
+number of docs = 6156; number of terms = 8905
 ------------------------------------------------------------
